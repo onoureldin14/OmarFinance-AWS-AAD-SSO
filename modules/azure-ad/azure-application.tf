@@ -7,7 +7,7 @@ resource "azuread_application" "aws_sso" {
 
   web {
     redirect_uris = [
-      va.aws_saml_acs,
+      va.aws_saml_acs
     ]
   }
   # TODO see how can we use these app_role in AWS Identity Center.
@@ -32,4 +32,25 @@ resource "azuread_service_principal" "aws_sso" {
   app_role_assignment_required       = true
   owners                             = [data.azuread_client_config.current.object_id]
   preferred_single_sign_on_mode     = "saml"
+}
+
+resource "time_rotating" "rotation_years" {
+  rotation_years = 3
+}
+
+
+resource "azuread_service_principal_token_signing_certificate" "aws_sso" {
+  service_principal_id = azuread_service_principal.aws_sso.id
+  end_date             = time_rotating.rotation_years.rotation_rfc3339
+  display_name         = "CN=${azuread_application.aws_sso.display_name} SSO Certificate" # (default: Microsoft Azure Federated SSO Certificate)
+  # TODO find a non provisioner way of doing this.
+  provisioner "local-exec" {
+    # NB this is in a single line to make it work in a linux or windows host.
+    command = "az ad sp update --id ${self.service_principal_id} --set preferredTokenSigningKeyThumbprint=${self.thumbprint}"
+  }
+}
+
+resource "saml_metadata" "aws_sso" {
+  url                          = local.saml_metadata_url
+  token_signing_key_thumbprint = azuread_service_principal_token_signing_certificate.aws_sso.thumbprint
 }
