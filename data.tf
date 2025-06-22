@@ -9,4 +9,3 @@ data "aws_iam_policy" "AdministratorAccess" {
 data "aws_iam_policy" "ReadOnlyAccess" {
   name = "ReadOnlyAccess"
 }
-

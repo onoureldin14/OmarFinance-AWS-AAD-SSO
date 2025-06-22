@@ -1,1 +1,1 @@
-data "azuread_domains" "current" {}
+# data "azuread_domains" "current" {}
