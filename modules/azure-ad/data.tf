@@ -1,1 +1,1 @@
-# data "azuread_domains" "current" {}
+data "azuread_client_config" "current" {}
