@@ -22,6 +22,8 @@ variable "users" {
     surname             = string
     email               = string
     role                = string
+    mail_nickname       = optional(string, "")
+    azure_ad_user_type  = optional(string, "Guest")
   }))
 }
 

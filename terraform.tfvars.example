@@ -1,2 +1,4 @@
 john_user_email="user+john@email.com"
 jane_user_email="user+jane@email.com"
+aws_saml_acs="SEE_README.MD_FOR_HOW_TO_FETCH_VALUE"
+aws_saml_entity_id="SEE_README.MD_FOR_HOW_TO_FETCH_VALUE"
