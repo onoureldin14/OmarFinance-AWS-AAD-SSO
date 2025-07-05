@@ -32,7 +32,7 @@ resource "azuread_app_role_assignment" "assignments_member" {
   for_each = { for k, v in var.users : k => v if v.azure_ad_user_type == "Member" }
 
   app_role_id         = local.role_mapping[each.value.role]
-  resource_object_id  = azuread_service_principal.aws_sso_sp.object_id
+  resource_object_id  = azuread_service_principal.sso_sp.object_id
   principal_object_id = azuread_user.user[each.key].object_id
 }
 
@@ -40,6 +40,6 @@ resource "azuread_app_role_assignment" "assignments_guest" {
   for_each = { for k, v in var.users : k => v if v.azure_ad_user_type == "Guest" }
 
   app_role_id         = local.role_mapping[each.value.role]
-  resource_object_id  = azuread_service_principal.aws_sso_sp.object_id
+  resource_object_id  = azuread_service_principal.sso_sp.object_id
   principal_object_id = azuread_invitation.guest_user[each.key].user_id
 }

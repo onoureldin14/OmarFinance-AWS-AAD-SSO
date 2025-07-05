@@ -1,4 +1,7 @@
 john_user_email="user+john@email.com"
 jane_user_email="user+jane@email.com"
+alex_user_email    = "alexandru@email.com"
+oladele_user_email = "oladele@email.com"
+teleport_saml      = "https://REPLACE_WITH_TENANT.teleport.sh:443/v1/webapi/saml/acs/ad"
 aws_saml_acs="SEE_README.MD_FOR_HOW_TO_FETCH_VALUE"
 aws_saml_entity_id="SEE_README.MD_FOR_HOW_TO_FETCH_VALUE"
