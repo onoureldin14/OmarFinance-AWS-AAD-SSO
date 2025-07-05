@@ -12,6 +12,7 @@ resource "azuread_application" "sso" {
   web {
     redirect_uris = [var.saml_acs]
   }
+  group_membership_claims = ["SecurityGroup"]
 
   dynamic "app_role" {
     for_each = var.azure_app_roles
