@@ -1,5 +1,5 @@
 output "client_id" {
-  value = azuread_application.aws_sso.client_id
+  value = azuread_application.sso.client_id
 }
 
 output "app_role_ids" {

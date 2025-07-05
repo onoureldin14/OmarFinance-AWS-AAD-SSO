@@ -14,13 +14,29 @@ module "aws_identity_with_sso" {
 
 
 module "azuread_sso_app" {
-  source             = "./modules/azure-ad"
-  aws_saml_entity_id = var.aws_saml_entity_id
-  aws_saml_acs       = var.aws_saml_acs
-
+  source            = "./modules/azure-ad"
+  prefix            = var.aws_app_prefix
+  saml_entity_id    = var.aws_saml_entity_id
+  saml_acs          = var.aws_saml_acs
+  login_url         = var.aws_sso_loging_url
   azure_app_roles   = local.identity_users_roles
   users             = local.identity_users
   logo_image_base64 = filebase64("${path.module}/assets/logo.png")
+
+  depends_on = [module.aws_identity_with_sso]
+}
+
+
+module "teleport_azuread_app" {
+  count             = var.enable_teleport ? 1 : 0
+  source            = "./modules/azure-ad"
+  prefix            = var.teleport_app_prefix
+  application_type  = "teleport"
+  saml_entity_id    = var.teleport_saml
+  saml_acs          = var.teleport_saml
+  azure_app_roles   = local.identity_users_roles
+  users             = local.identity_users
+  logo_image_base64 = filebase64("${path.module}/assets/teleport.png")
 
   depends_on = [module.aws_identity_with_sso]
 }
